@@ -34,12 +34,12 @@ final class Wallet extends Model
 
     public function getBalance(): int
     {
-        return $this->balance;
+        return $this->balance === 0 ? 0 : $this->balance / 100;
     }
 
-    public function setBalance(int $balance): void
+    public function setBalance(float $balance): void
     {
-        $this->balance = $balance;
+        $this->balance = convert_to_cents($balance);
     }
 
     public static function newFactory(): WalletFactory
@@ -51,7 +51,7 @@ final class Wallet extends Model
     {
         parent::boot();
 
-        self::creating(function (Wallet $wallet): void {
+        self::creating(function (self $wallet): void {
             $wallet->uuid = Uuid::uuid4()->toString();
         });
     }

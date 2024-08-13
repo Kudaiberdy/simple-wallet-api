@@ -35,7 +35,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
                 return $response->json([
                         ...$responseBody,
-                        'message' => $exception->getMessage(),
+                        'message' => null,
                         'code'    => Response::HTTP_INTERNAL_SERVER_ERROR,
                     ])
                     ->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);

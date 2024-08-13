@@ -6,7 +6,11 @@ namespace App\Module\Wallet\Providers;
 
 use App\DataMappers\DataMapper;
 use App\Module\Wallet\Contracts\Services\WalletService as WalletServiceContract;
-use App\Module\Wallet\DataMappers\RequestToCreditToWalletDTOMapper;
+use App\Module\Wallet\DataMappers\UpdateWalletAccountDTOMapper;
+use App\Module\Wallet\DataMappers\StoreTransactionDTOMapper;
+use App\Module\Wallet\Enums\HandlerTransactionPipe;
+use App\Module\Wallet\Handlers\UpdateWalletAccountHandler;
+use App\Module\Wallet\Pipes\CreateTransactionHandlerPipe;
 use App\Module\Wallet\Services\WalletService;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
@@ -16,7 +20,20 @@ final class BindServiceProvider extends ServiceProvider
 {
     public array $bindings = [
         WalletServiceContract::class => WalletService::class,
-        DataMapper::class            => RequestToCreditToWalletDTOMapper::class,
+        DataMapper::class            => UpdateWalletAccountDTOMapper::class,
         PipelineContract::class      => Pipeline::class,
     ];
+
+    public function register(): void
+    {
+        $this->app->tag(HandlerTransactionPipe::getValues(), 'transactionHandlerPipes');
+
+        $this->app->when(UpdateWalletAccountHandler::class)
+            ->needs('$pipes')
+            ->giveTagged('transactionHandlerPipes');
+
+        $this->app->when(CreateTransactionHandlerPipe::class)
+            ->needs(DataMapper::class)
+            ->give(StoreTransactionDTOMapper::class);
+    }
 }
