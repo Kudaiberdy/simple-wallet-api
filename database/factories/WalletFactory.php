@@ -13,7 +13,7 @@ class WalletFactory extends Factory
     {
         return [
             'uuid'        => $this->faker->uuid(),
-            'balance'     => $this->faker->numberBetween(0, 1_000_000),
+            'balance'     => 0,
             'currency_id' => $this->faker->randomElement([1, 2]),
         ];
     }
