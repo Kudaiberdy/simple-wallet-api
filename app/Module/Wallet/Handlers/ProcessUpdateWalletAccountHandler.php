@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Module\Wallet\Handlers;
 
-use App\Module\Wallet\Commands\UpdateWalletAccountCommand;
+use App\Module\Wallet\Commands\ProcessUpdateWalletAccountCommand;
 use App\Module\Wallet\Contracts\Pipe\TransactionProcessHandlerPipe;
 use App\Module\Wallet\DTO\ProcessTransactionDTO;
 use Illuminate\Contracts\Pipeline\Pipeline;
 
-final readonly class UpdateWalletAccountHandler
+final readonly class ProcessUpdateWalletAccountHandler
 {
     /**
      * @param Pipeline                             $pipeline
@@ -21,14 +21,14 @@ final readonly class UpdateWalletAccountHandler
     ) {
     }
 
-    public function handle(UpdateWalletAccountCommand $command): void
+    public function handle(ProcessUpdateWalletAccountCommand $command): void
     {
         $this->pipeline->send($this->prepareDTO($command))
             ->through($this->pipes)
-            ->thenReturn();
+            ->then(fn (ProcessTransactionDTO $dto): ProcessTransactionDTO => $dto);
     }
 
-    private function prepareDTO(UpdateWalletAccountCommand $command): ProcessTransactionDTO
+    private function prepareDTO(ProcessUpdateWalletAccountCommand $command): ProcessTransactionDTO
     {
         $dto = new ProcessTransactionDTO();
 

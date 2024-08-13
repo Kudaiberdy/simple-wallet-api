@@ -9,7 +9,7 @@ use App\Module\Wallet\Contracts\Services\WalletService as WalletServiceContract;
 use App\Module\Wallet\DataMappers\UpdateWalletAccountDTOMapper;
 use App\Module\Wallet\DataMappers\StoreTransactionDTOMapper;
 use App\Module\Wallet\Enums\HandlerTransactionPipe;
-use App\Module\Wallet\Handlers\UpdateWalletAccountHandler;
+use App\Module\Wallet\Handlers\ProcessUpdateWalletAccountHandler;
 use App\Module\Wallet\Pipes\CreateTransactionHandlerPipe;
 use App\Module\Wallet\Services\WalletService;
 use Illuminate\Pipeline\Pipeline;
@@ -28,7 +28,7 @@ final class BindServiceProvider extends ServiceProvider
     {
         $this->app->tag(HandlerTransactionPipe::getValues(), 'transactionHandlerPipes');
 
-        $this->app->when(UpdateWalletAccountHandler::class)
+        $this->app->when(ProcessUpdateWalletAccountHandler::class)
             ->needs('$pipes')
             ->giveTagged('transactionHandlerPipes');
 
