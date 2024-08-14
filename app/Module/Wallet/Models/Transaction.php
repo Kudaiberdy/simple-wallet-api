@@ -31,6 +31,21 @@ class Transaction extends Model
         ];
     }
 
+    public function getType(): TransactionType
+    {
+        return $this->type;
+    }
+
+    public function getCurrencyId(): int
+    {
+        return $this->currency_id;
+    }
+
+    public function getAmount(): float
+    {
+        return $this->amount / 100;
+    }
+
     public function setAmount(float $amount): void
     {
         $this->amount = convert_to_cents($amount);

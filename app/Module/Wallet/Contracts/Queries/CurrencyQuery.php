@@ -13,4 +13,9 @@ interface CurrencyQuery
      * @throws ModelNotFoundException
      */
     public function getCurrencyByCode(string $code): Currency;
+
+    /**
+     * @throws ModelNotFoundException
+     */
+    public function getCurrencyById(int $id): Currency;
 }

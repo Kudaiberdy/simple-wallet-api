@@ -14,6 +14,7 @@ use Ramsey\Uuid\Uuid;
  * @property int    $id
  * @property string $uuid
  * @property int    $balance
+ * @property int    $currency_id
  */
 final class Wallet extends Model
 {
@@ -22,19 +23,19 @@ final class Wallet extends Model
 
     public $table = 'wallets';
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
     public function getUuid(): string
     {
         return $this->uuid;
     }
 
-    public function getBalance(): int
+    public function getBalance(): float
     {
         return $this->balance === 0 ? 0 : $this->balance / 100;
+    }
+
+    public function getCurrencyId(): int
+    {
+        return $this->currency_id;
     }
 
     public function setBalance(float $balance): void

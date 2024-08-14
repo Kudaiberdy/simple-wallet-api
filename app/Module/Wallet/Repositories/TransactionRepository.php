@@ -6,7 +6,6 @@ namespace App\Module\Wallet\Repositories;
 
 use App\Module\Wallet\Contracts\Repositories\StoreTransactionRepository;
 use App\Module\Wallet\Models\Transaction;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 
 final class TransactionRepository implements StoreTransactionRepository
@@ -16,8 +15,6 @@ final class TransactionRepository implements StoreTransactionRepository
      */
     public function store(Transaction $transaction): void
     {
-        DB::transaction(function () use ($transaction): void {
-            $transaction->saveOrFail();
-        });
+        $transaction->saveOrFail();
     }
 }

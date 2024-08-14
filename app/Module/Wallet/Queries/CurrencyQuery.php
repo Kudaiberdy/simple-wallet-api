@@ -19,4 +19,14 @@ final class CurrencyQuery implements CurrencyQueryContract
             ->where('code', $code)
             ->firstOrFail();
     }
+
+    /**
+     * @throws ModelNotFoundException
+     */
+    public function getCurrencyById(int $id): Currency
+    {
+        return Currency::query()
+            ->where('id', $id)
+            ->firstOrFail();
+    }
 }

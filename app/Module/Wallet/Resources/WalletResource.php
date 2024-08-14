@@ -20,8 +20,8 @@ final class WalletResource extends BaseJsonResource
     public function toArray(Request $request): array
     {
         return [
-            'uuid'    => $this->resource->uuid,
-            'balance' => $this->resource->balance,
+            'uuid'    => $this->resource->getUuid(),
+            'balance' => $this->resource->getBalance(),
         ];
     }
 }
