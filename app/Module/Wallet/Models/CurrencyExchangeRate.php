@@ -14,4 +14,11 @@ use Illuminate\Database\Eloquent\Model;
 class CurrencyExchangeRate extends Model
 {
     use HasFactory;
+
+    public $table = 'currency_exchange_rates';
+
+    public function getRate(): float
+    {
+        return $this->rate === 0 ? 0 : $this->rate / 100;
+    }
 }

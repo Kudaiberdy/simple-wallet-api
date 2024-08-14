@@ -7,7 +7,7 @@ namespace App\Module\Wallet\Controllers;
 use App\DataMappers\DataMapper;
 use App\Http\Controllers\Controller as BaseController;
 use App\Http\Resources\MessagesResource;
-use App\Module\Wallet\Commands\UpdateWalletAccountCommand;
+use App\Module\Wallet\Commands\ProcessUpdateWalletAccountCommand;
 use App\Module\Wallet\Contracts\Services\WalletService;
 use App\Module\Wallet\DTO\UpdateWalletAccountDTO;
 use App\Module\Wallet\Requests\UpdateAccountRequest;
@@ -32,7 +32,7 @@ final class Controller extends BaseController
     public function updateAccount(string $uuid, UpdateAccountRequest $request, DataMapper $mapper): MessagesResource
     {
         $this->dispatcher->dispatch(
-            new UpdateWalletAccountCommand(
+            new ProcessUpdateWalletAccountCommand(
                 $uuid,
                 $mapper->map($request, UpdateWalletAccountDTO::class)
             )

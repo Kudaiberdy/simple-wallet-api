@@ -6,15 +6,13 @@ namespace App\Module\Wallet\DTO;
 
 use App\Module\Wallet\Enums\ReasonAccountChange;
 use App\Module\Wallet\Enums\TransactionType;
-use App\Module\Wallet\Models\Currency;
-use App\Module\Wallet\Models\Wallet;
 
-final class UpdateWalletAccountDTO
+final class StoreTransactionDTO
 {
-    public Wallet $wallet;
-    public TransactionType $transactionType;
-    public Currency $currency;
-    public ReasonAccountChange $changeReason;
+    public int $walletId;
+    public int $currencyId;
+    public TransactionType $type;
+    public ReasonAccountChange $reason;
     private int $amount;
 
     public function getAmount(): float

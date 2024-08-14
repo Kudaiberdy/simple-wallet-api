@@ -14,6 +14,7 @@ use Ramsey\Uuid\Uuid;
  * @property int    $id
  * @property string $uuid
  * @property int    $balance
+ * @property int    $currency_id
  */
 final class Wallet extends Model
 {
@@ -22,24 +23,24 @@ final class Wallet extends Model
 
     public $table = 'wallets';
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
     public function getUuid(): string
     {
         return $this->uuid;
     }
 
-    public function getBalance(): int
+    public function getBalance(): float
     {
-        return $this->balance;
+        return $this->balance === 0 ? 0 : $this->balance / 100;
     }
 
-    public function setBalance(int $balance): void
+    public function getCurrencyId(): int
     {
-        $this->balance = $balance;
+        return $this->currency_id;
+    }
+
+    public function setBalance(float $balance): void
+    {
+        $this->balance = convert_to_cents($balance);
     }
 
     public static function newFactory(): WalletFactory
@@ -51,7 +52,7 @@ final class Wallet extends Model
     {
         parent::boot();
 
-        self::creating(function (Wallet $wallet): void {
+        self::creating(function (self $wallet): void {
             $wallet->uuid = Uuid::uuid4()->toString();
         });
     }

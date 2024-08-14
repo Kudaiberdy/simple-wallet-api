@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Module\Wallet\Commands;
 
-use App\Module\Wallet\DTO\UpdateWalletAccountDTO;
+use App\Module\Wallet\Models\Transaction;
+use App\Module\Wallet\Models\Wallet;
 
 final readonly class UpdateWalletAccountCommand
 {
     public function __construct(
-        public string $uuid,
-        public UpdateWalletAccountDTO $dto
+        public Wallet $wallet,
+        public Transaction $transaction
     ) {
     }
 }
